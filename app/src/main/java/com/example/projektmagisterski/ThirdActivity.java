@@ -119,8 +119,8 @@ public class ThirdActivity extends AppCompatActivity {
             public TextView tvNote,tvTimestamp;
             public NotesViewHolder(@NonNull View itemView) {
                 super(itemView);
-                tvNote=itemView.findViewById(R.id.nameProduct);
-                tvTimestamp=itemView.findViewById(R.id.amountProduct);
+                tvNote=itemView.findViewById(R.id.tvNote);
+                tvTimestamp=itemView.findViewById(R.id.tvTimeStamp);
 
                 itemView.setClickable(true);
                 itemView.setOnLongClickListener(new View.OnLongClickListener() {
@@ -204,3 +204,60 @@ class NoteData implements Parcelable {
 
 
 }
+
+//class ProductData implements Parcelable {
+//    private String data;
+//    private LocalDateTime timestamp;
+//
+//    public NoteData(String data, LocalDateTime timestamp) {
+//        this.data = data;
+//        this.timestamp = timestamp;
+//    }
+//
+//
+//    public String getData() {
+//        return data;
+//    }
+//
+//    public LocalDateTime getTimestamp() {
+//        return timestamp;
+//    }
+//
+//    //-------------------------------------
+//
+//    public static final Creator<NoteData> CREATOR = new Creator<NoteData>() {
+//        @RequiresApi(api = Build.VERSION_CODES.O)
+//        @Override
+//        public NoteData createFromParcel(Parcel in) {
+//            return new NoteData(in);
+//        }
+//
+//        @Override
+//        public NoteData[] newArray(int size) {
+//            return new NoteData[size];
+//        }
+//    };
+//
+//
+//
+//    @RequiresApi(api = Build.VERSION_CODES.O)
+//    protected NoteData(Parcel in) {
+//        data = in.readString();
+//        timestamp = LocalDateTime.parse(in.readString());
+//    }
+//    @Override
+//    public int describeContents() {
+//        return 0;
+//    }
+//
+//    @Override
+//    public void writeToParcel(Parcel dest, int flags) {
+//        dest.writeString(data);
+//        dest.writeString(timestamp.toString());
+//
+//    }
+//
+//
+//
+//
+//}
