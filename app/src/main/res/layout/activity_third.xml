@@ -57,29 +57,29 @@
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent" />
 
-<!--    <EditText-->
-<!--        android:id="@+id/enterDate"-->
-<!--        android:layout_width="wrap_content"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:ems="10"-->
-<!--        android:hint="Wprowadź date"-->
-<!--        android:inputType="date"-->
-<!--        app:layout_constraintBottom_toTopOf="@+id/etNote"-->
-<!--        app:layout_constraintEnd_toEndOf="parent"-->
-<!--        app:layout_constraintStart_toStartOf="parent"-->
-<!--        app:layout_constraintTop_toBottomOf="@+id/enterAmount"-->
-<!--        app:layout_constraintVertical_bias="0.36" />-->
+    <EditText
+        android:id="@+id/enterDate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:hint="Wprowadź date"
+        android:inputType="date"
+        app:layout_constraintBottom_toTopOf="@+id/etNote"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/enterAmount"
+        app:layout_constraintVertical_bias="0.36" />
 
-<!--    <EditText-->
-<!--        android:id="@+id/enterAmount"-->
-<!--        android:layout_width="wrap_content"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:layout_marginTop="44dp"-->
-<!--        android:ems="10"-->
-<!--        android:hint="Wprowadź ilość"-->
-<!--        android:inputType="number"-->
-<!--        app:layout_constraintEnd_toEndOf="parent"-->
-<!--        app:layout_constraintStart_toStartOf="parent"-->
-<!--        app:layout_constraintTop_toBottomOf="@+id/rvNotes" />-->
+    <EditText
+        android:id="@+id/enterAmount"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="44dp"
+        android:ems="10"
+        android:hint="Wprowadź ilość"
+        android:inputType="number"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/rvNotes" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

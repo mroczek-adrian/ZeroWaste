@@ -22,6 +22,7 @@ import android.widget.TextView;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Date;
 
 public class ThirdActivity extends AppCompatActivity {
     private ArrayList<NoteData> notes;
@@ -119,8 +120,8 @@ public class ThirdActivity extends AppCompatActivity {
             public TextView tvNote,tvTimestamp;
             public NotesViewHolder(@NonNull View itemView) {
                 super(itemView);
-                tvNote=itemView.findViewById(R.id.tvNote);
-                tvTimestamp=itemView.findViewById(R.id.tvTimeStamp);
+                tvNote=itemView.findViewById(R.id.tvProductName);
+                tvTimestamp=itemView.findViewById(R.id.tvAmount);
 
                 itemView.setClickable(true);
                 itemView.setOnLongClickListener(new View.OnLongClickListener() {
@@ -205,26 +206,84 @@ class NoteData implements Parcelable {
 
 }
 
-//class ProductData implements Parcelable {
-//    private String data;
-//    private LocalDateTime timestamp;
-//
-//    public NoteData(String data, LocalDateTime timestamp) {
-//        this.data = data;
-//        this.timestamp = timestamp;
-//    }
-//
-//
-//    public String getData() {
-//        return data;
-//    }
-//
-//    public LocalDateTime getTimestamp() {
-//        return timestamp;
-//    }
-//
-//    //-------------------------------------
-//
+class ProductData implements Parcelable {
+    private String nameProduct;
+    private Integer ilosc;
+    private Date expiryDate;
+
+    public ProductData(String nameProduct, Integer ilosc,Date expiryDate) {
+        this.expiryDate = expiryDate;
+        this.ilosc = ilosc;
+        this.nameProduct = nameProduct;
+
+
+    }
+
+
+
+    public String getNameProduct() {
+        return nameProduct;
+    }
+
+    public void setNameProduct(String nameProduct) {
+        this.nameProduct = nameProduct;
+    }
+
+    public Integer getIlosc() {
+        return ilosc;
+    }
+
+    public void setIlosc(Integer ilosc) {
+        this.ilosc = ilosc;
+    }
+
+    public Date getExpiryDate() {
+        return expiryDate;
+    }
+
+    public void setExpiryDate(Date expiryDate) {
+        this.expiryDate = expiryDate;
+    }
+
+
+    //ponizej chyba po to aby sie obracalo a poki co nie chce tego
+    //-------------------------------------
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(nameProduct);
+        if (ilosc == null) {
+            dest.writeByte((byte) 0);
+        } else {
+            dest.writeByte((byte) 1);
+            dest.writeInt(ilosc);
+        }
+    }
+    protected ProductData(Parcel in) {
+        nameProduct = in.readString();
+        if (in.readByte() == 0) {
+            ilosc = null;
+        } else {
+            ilosc = in.readInt();
+        }
+    }
+
+    public static final Creator<ProductData> CREATOR = new Creator<ProductData>() {
+        @Override
+        public ProductData createFromParcel(Parcel in) {
+            return new ProductData(in);
+        }
+
+        @Override
+        public ProductData[] newArray(int size) {
+            return new ProductData[size];
+        }
+    };
+
 //    public static final Creator<NoteData> CREATOR = new Creator<NoteData>() {
 //        @RequiresApi(api = Build.VERSION_CODES.O)
 //        @Override
@@ -256,8 +315,10 @@ class NoteData implements Parcelable {
 //        dest.writeString(timestamp.toString());
 //
 //    }
-//
-//
-//
-//
-//}
+
+
+
+
+
+
+}
