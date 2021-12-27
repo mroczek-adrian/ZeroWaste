@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.Activity;
+import android.app.DatePickerDialog;
 import android.content.DialogInterface;
 import android.os.Build;
 import android.os.Bundle;
@@ -17,20 +18,24 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TextView;
+import java.util.Calendar;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Date;
 
-public class ThirdActivity extends AppCompatActivity {
-    private ArrayList<NoteData> notes;
+public class ThirdActivity extends AppCompatActivity implements DatePickerDialog.OnDateSetListener{
+    private ArrayList<ProductData> products;
     private RecyclerView rvNotes;
-    private NotesAdapter adapter;
+    private ProductsAdapter adapter;
     private LinearLayoutManager linearLayoutManager;
-    private Button bAdd;
-    private EditText etNote;
+    private Button bAdd,bWstecz,bExpiryDate;
+    private EditText etNote,enterAmount;
+    private TextView dateText;
+
 
 
 
@@ -39,31 +44,46 @@ public class ThirdActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_third);
-        notes=new ArrayList<>();
+        products = new ArrayList<>();
 
-
-        rvNotes=findViewById(R.id.rvNotes);
-        adapter=new NotesAdapter(notes);
+        //ustaweinie id dla konkretnych obiektow
+        rvNotes = findViewById(R.id.rvNotes);
+        adapter = new ProductsAdapter(products);
         rvNotes.setAdapter(adapter);
-        linearLayoutManager=new LinearLayoutManager(this);
+        linearLayoutManager = new LinearLayoutManager(this);
         rvNotes.setLayoutManager(linearLayoutManager);
-        bAdd=findViewById(R.id.bAdd);
-        etNote=findViewById(R.id.etNote);
+        bAdd = findViewById(R.id.bAdd);
+        bExpiryDate = findViewById(R.id.bExpiryDate);
+        dateText = findViewById(R.id.date_text);
+        etNote = findViewById(R.id.etNote);
+        bWstecz = findViewById(R.id.bWstecz);
+        enterAmount = findViewById(R.id.enterAmount);
+
+        findViewById(R.id.bExpiryDate).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showDatePickerDialog();
+            }
+        });
+
         bAdd.setOnClickListener(new View.OnClickListener() {
             @RequiresApi(api = Build.VERSION_CODES.O)
             @Override
             public void onClick(View v) {
-                String txt=etNote.getText().toString();
-                if(txt.length()>0){
-                    NoteData data=new NoteData(txt, LocalDateTime.now());
-                    int currentPosition=notes.size();
-                    notes.add(data);
+                String txtNameProduct = etNote.getText().toString();
+                String txtIlosc = enterAmount.getText().toString();
+                String txtExpiryDate = dateText.getText().toString();
+
+                if (txtNameProduct.length() > 0) {
+                    ProductData data = new ProductData(txtNameProduct, txtIlosc, txtExpiryDate);
+//                     public ProductData(String nameProduct, Integer ilosc,Date expiryDate) {
+                    int currentPosition = products.size();
+                    products.add(data);
                     adapter.notifyItemInserted(currentPosition);
                     etNote.setText("");
                 }
             }
         });
-        Button bWstecz=findViewById(R.id.bWstecz);
 
         bWstecz.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -73,55 +93,77 @@ public class ThirdActivity extends AppCompatActivity {
 
             }
         });
+
+
+
+    }
+    public void showDatePickerDialog(){
+        DatePickerDialog datePickerDialog = new DatePickerDialog(
+                this,
+                this,
+                Calendar.getInstance().get(Calendar.YEAR),
+                Calendar.getInstance().get(Calendar.MONTH),
+                Calendar.getInstance().get(Calendar.DAY_OF_MONTH));
+        datePickerDialog.show();
+
     }
     @Override
     public void onSaveInstanceState(@NonNull Bundle outState){
-        outState.putParcelableArrayList("DANE",notes);
+        outState.putParcelableArrayList("DANE",products);
         super.onSaveInstanceState(outState);
     }
     protected void onRestoreInstanceState(@NonNull Bundle savedInstanceState){
-        ArrayList<NoteData> notes =  savedInstanceState.getParcelableArrayList("DANE");
-        adapter.setNotes(notes);
+        ArrayList<ProductData> products =  savedInstanceState.getParcelableArrayList("DANE");
+//        adapter.setProducts(products);
         super.onRestoreInstanceState(savedInstanceState);
     }
 
+    @Override
+    public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+        String date = "month/day/year: " + month + "/" + dayOfMonth + "/" + year;
+        dateText.setText(date);
+    }
 
 
-    class NotesAdapter extends RecyclerView.Adapter<NotesAdapter.NotesViewHolder>{
-        private ArrayList<NoteData> notes;
+    class ProductsAdapter extends RecyclerView.Adapter<ProductsAdapter.ProductsViewHolder>{
+        private ArrayList<ProductData> products;
 
-        public NotesAdapter(ArrayList<NoteData> notes){
-            this.notes=notes;
+        public ProductsAdapter(ArrayList<ProductData> products){
+            this.products=products;
         }
         @NonNull
         @Override
-        public NotesViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        public ProductsViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
             LayoutInflater inflater=LayoutInflater.from(parent.getContext());
-            View view=inflater.inflate(R.layout.note_item,parent,false);
-            return new NotesViewHolder(view);
+            View view=inflater.inflate(R.layout.product_item,parent,false);
+            return new ProductsViewHolder(view);
         }
-        public void setNotes(ArrayList<NoteData> notes){
-            this.notes = notes;
+        public void setNotes(ArrayList<ProductData> products){
+            this.products = products;
         }
 
         @Override
-        public void onBindViewHolder(@NonNull NotesViewHolder holder, int position) {
-            NoteData data=notes.get(position);
-            holder.tvNote.setText(data.getData());
-            holder.tvTimestamp.setText(data.getTimestamp().toString());
+        public void onBindViewHolder(@NonNull ProductsViewHolder holder, int position) {
+            ProductData data=products.get(position);
+            holder.tvProductName.setText(data.getNameProduct());
+            holder.tvAmount.setText(data.getIlosc());
+            holder.tvExpiryDate.setText(data.getExpiryDate().toString());
+
+//            holder.tvTimestamp.setText(data.getTimestamp().toString());
         }
 
         @Override
         public int getItemCount() {
-            return notes.size();
+            return products.size();
         }
 
-        class NotesViewHolder extends RecyclerView.ViewHolder{
-            public TextView tvNote,tvTimestamp;
-            public NotesViewHolder(@NonNull View itemView) {
+        class ProductsViewHolder extends RecyclerView.ViewHolder{
+            public TextView tvProductName,tvAmount,tvExpiryDate;
+            public ProductsViewHolder(@NonNull View itemView) {
                 super(itemView);
-                tvNote=itemView.findViewById(R.id.tvProductName);
-                tvTimestamp=itemView.findViewById(R.id.tvAmount);
+                tvProductName=itemView.findViewById(R.id.tvProductName);
+                tvAmount=itemView.findViewById(R.id.tvAmount);
+                tvExpiryDate=itemView.findViewById(R.id.tvExpiryDate);
 
                 itemView.setClickable(true);
                 itemView.setOnLongClickListener(new View.OnLongClickListener() {
@@ -134,7 +176,7 @@ public class ThirdActivity extends AppCompatActivity {
                                 .setPositiveButton("Tak", new DialogInterface.OnClickListener() {
                                     @Override
                                     public void onClick(DialogInterface dialog, int which) {
-                                        notes.remove(i);
+                                        products.remove(i);
                                         notifyItemRemoved(i);
                                     }
                                 })
@@ -148,70 +190,70 @@ public class ThirdActivity extends AppCompatActivity {
     }
 }
 
-
-class NoteData implements Parcelable {
-    private String data;
-    private LocalDateTime timestamp;
-
-    public NoteData(String data, LocalDateTime timestamp) {
-        this.data = data;
-        this.timestamp = timestamp;
-    }
-
-
-    public String getData() {
-        return data;
-    }
-
-    public LocalDateTime getTimestamp() {
-        return timestamp;
-    }
-
-    //-------------------------------------
-
-    public static final Creator<NoteData> CREATOR = new Creator<NoteData>() {
-        @RequiresApi(api = Build.VERSION_CODES.O)
-        @Override
-        public NoteData createFromParcel(Parcel in) {
-            return new NoteData(in);
-        }
-
-        @Override
-        public NoteData[] newArray(int size) {
-            return new NoteData[size];
-        }
-    };
-
-
-
-    @RequiresApi(api = Build.VERSION_CODES.O)
-    protected NoteData(Parcel in) {
-        data = in.readString();
-        timestamp = LocalDateTime.parse(in.readString());
-    }
-    @Override
-    public int describeContents() {
-        return 0;
-    }
-
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(data);
-        dest.writeString(timestamp.toString());
-
-    }
-
-
-
-
-}
+//
+//class NoteData implements Parcelable {
+//    private String data;
+//    private LocalDateTime timestamp;
+//
+//    public NoteData(String data, LocalDateTime timestamp) {
+//        this.data = data;
+//        this.timestamp = timestamp;
+//    }
+//
+//
+//    public String getData() {
+//        return data;
+//    }
+//
+//    public LocalDateTime getTimestamp() {
+//        return timestamp;
+//    }
+//
+//    //-------------------------------------
+//
+//    public static final Creator<NoteData> CREATOR = new Creator<NoteData>() {
+//        @RequiresApi(api = Build.VERSION_CODES.O)
+//        @Override
+//        public NoteData createFromParcel(Parcel in) {
+//            return new NoteData(in);
+//        }
+//
+//        @Override
+//        public NoteData[] newArray(int size) {
+//            return new NoteData[size];
+//        }
+//    };
+//
+//
+//
+//    @RequiresApi(api = Build.VERSION_CODES.O)
+//    protected NoteData(Parcel in) {
+//        data = in.readString();
+//        timestamp = LocalDateTime.parse(in.readString());
+//    }
+//    @Override
+//    public int describeContents() {
+//        return 0;
+//    }
+//
+//    @Override
+//    public void writeToParcel(Parcel dest, int flags) {
+//        dest.writeString(data);
+//        dest.writeString(timestamp.toString());
+//
+//    }
+//
+//
+//
+//
+//}
 
 class ProductData implements Parcelable {
     private String nameProduct;
-    private Integer ilosc;
-    private Date expiryDate;
+    private String ilosc;
+    private String expiryDate;
 
-    public ProductData(String nameProduct, Integer ilosc,Date expiryDate) {
+    public ProductData(String nameProduct, String ilosc,String expiryDate) {
         this.expiryDate = expiryDate;
         this.ilosc = ilosc;
         this.nameProduct = nameProduct;
@@ -229,19 +271,19 @@ class ProductData implements Parcelable {
         this.nameProduct = nameProduct;
     }
 
-    public Integer getIlosc() {
+    public String getIlosc() {
         return ilosc;
     }
 
-    public void setIlosc(Integer ilosc) {
+    public void setIlosc(String ilosc) {
         this.ilosc = ilosc;
     }
 
-    public Date getExpiryDate() {
+    public String getExpiryDate() {
         return expiryDate;
     }
 
-    public void setExpiryDate(Date expiryDate) {
+    public void setExpiryDate(String expiryDate) {
         this.expiryDate = expiryDate;
     }
 
@@ -255,24 +297,22 @@ class ProductData implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(ilosc);
+        dest.writeString(String.valueOf(expiryDate));
         dest.writeString(nameProduct);
-        if (ilosc == null) {
-            dest.writeByte((byte) 0);
-        } else {
-            dest.writeByte((byte) 1);
-            dest.writeInt(ilosc);
-        }
+
     }
+    @RequiresApi(api = Build.VERSION_CODES.O)
     protected ProductData(Parcel in) {
         nameProduct = in.readString();
-        if (in.readByte() == 0) {
-            ilosc = null;
-        } else {
-            ilosc = in.readInt();
-        }
+        expiryDate =  in.readString();
+        ilosc = in.readString();
+//        data = in.readString();
+//        timestamp = LocalDateTime.parse(in.readString());
     }
 
     public static final Creator<ProductData> CREATOR = new Creator<ProductData>() {
+        @RequiresApi(api = Build.VERSION_CODES.O)
         @Override
         public ProductData createFromParcel(Parcel in) {
             return new ProductData(in);
@@ -284,19 +324,8 @@ class ProductData implements Parcelable {
         }
     };
 
-//    public static final Creator<NoteData> CREATOR = new Creator<NoteData>() {
-//        @RequiresApi(api = Build.VERSION_CODES.O)
-//        @Override
-//        public NoteData createFromParcel(Parcel in) {
-//            return new NoteData(in);
-//        }
-//
-//        @Override
-//        public NoteData[] newArray(int size) {
-//            return new NoteData[size];
-//        }
-//    };
-//
+
+
 //
 //
 //    @RequiresApi(api = Build.VERSION_CODES.O)
