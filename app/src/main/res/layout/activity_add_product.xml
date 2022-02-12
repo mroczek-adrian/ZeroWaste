@@ -34,7 +34,7 @@
         app:layout_constraintTop_toBottomOf="@+id/et_name" />
 
     <Switch
-        android:id="@+id/sw_active"
+        android:id="@+id/sw_activeProduct"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Active Product"
@@ -50,7 +50,7 @@
         android:text="View All"
         app:layout_constraintEnd_toStartOf="@+id/btn_add"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/sw_active" />
+        app:layout_constraintTop_toBottomOf="@+id/sw_activeProduct" />
 
     <Button
         android:id="@+id/btn_add"
@@ -63,7 +63,7 @@
         />
 
     <ListView
-        android:id="@+id/lv_customerList"
+        android:id="@+id/lv_productList"
         android:layout_width="409dp"
         android:layout_height="548dp"
         app:layout_constraintBottom_toBottomOf="parent"

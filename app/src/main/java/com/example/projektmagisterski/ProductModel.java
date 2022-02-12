@@ -1,6 +1,6 @@
 package com.example.projektmagisterski;
 
-public class CustomerModel {
+public class ProductModel {
     private int id;
     private String name;
     private int age;
@@ -9,22 +9,23 @@ public class CustomerModel {
 
     //constructor
 
-    public CustomerModel(int id, String name, int age, boolean isActive) {
+
+    public ProductModel(int id, String name, int age, boolean isActive) {
         this.id = id;
         this.name = name;
         this.age = age;
         this.isActive = isActive;
     }
 
-    public CustomerModel() {
+    public ProductModel() {
+
     }
 
     //toString is necessary for printing the contents of the class object
 
-
     @Override
     public String toString() {
-        return "CustomerModel{" +
+        return "ProductModel{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", age=" + age +
@@ -32,7 +33,10 @@ public class CustomerModel {
                 '}';
     }
 
+
     //gettter and setter
+
+
     public int getId() {
         return id;
     }
