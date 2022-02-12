@@ -2,4 +2,6 @@
     <string name="app_name">ProjektMagisterski</string>
     <string name="button_caption">Dodaj</string>
     <string name="placeholder">Wprowadź tekst</string>
+    <string name="ProductName">Nazwa Produktu</string>
+    <string name="Liczba_produktu_w_sztukach">Liczba produktu w sztukach</string>
 </resources>

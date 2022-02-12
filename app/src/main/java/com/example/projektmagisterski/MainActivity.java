@@ -12,6 +12,8 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
 
+import java.util.ArrayList;
+
 public class MainActivity extends AppCompatActivity {
 
     @Override
@@ -30,6 +32,14 @@ public class MainActivity extends AppCompatActivity {
                             Integer l2=i.getIntExtra("l2",0);
                             Integer w=l1+l2;
                             ((TextView)findViewById(R.id.textView)).setText(w.toString());
+
+
+
+                            //pod spisem produktow textview
+//                            Intent ii=result.getData();
+//                            ArrayList listaProduktow=ii.getStringArrayListExtra("listaProduktow");
+//
+//                            ((TextView)findViewById(R.id.tvProductResult)).setText(listaProduktow.toString());
                         }
                     }
                 });
@@ -47,6 +57,19 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent i1 = new Intent(getApplicationContext(),ThirdActivity.class);
+                launcher.launch(i1);
+            }
+        });
+//
+//        Intent intent = getIntent();
+//        ArrayList listaProduktow=intent.getStringArrayListExtra("listaProduktow");
+//        ((TextView)findViewById(R.id.tvProductResult)).setText(listaProduktow.toString());
+
+
+        findViewById(R.id.bAddProduct).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i1 = new Intent(getApplicationContext(),AddProductActivity.class);
                 launcher.launch(i1);
             }
         });

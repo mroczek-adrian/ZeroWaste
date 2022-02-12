@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Parcel;
@@ -21,6 +22,8 @@ import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import java.util.Calendar;
 
 import java.time.LocalDateTime;
@@ -81,6 +84,17 @@ public class ThirdActivity extends AppCompatActivity implements DatePickerDialog
                     products.add(data);
                     adapter.notifyItemInserted(currentPosition);
                     etNote.setText("");
+
+                    //intencja
+//                    String l1=dateText.toString();
+//                    String l2=enterAmount.toString();
+//                    String l3=etNote.toString();
+
+
+                    Toast.makeText(getApplicationContext(),"Stworzono intencje",Toast.LENGTH_SHORT).show();
+
+
+
                 }
             }
         });
@@ -89,7 +103,12 @@ public class ThirdActivity extends AppCompatActivity implements DatePickerDialog
             @Override
             public void onClick(View v) {
                 setResult(Activity.RESULT_CANCELED);
+
+                Intent i=new Intent();
+                i.putExtra("listaProduktow",products);
+
                 finish();
+
 
             }
         });
