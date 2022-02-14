@@ -3,17 +3,17 @@ package com.example.projektmagisterski;
 public class ProductModel {
     private int id;
     private String name;
-    private int age;
+    private int amount;
     private boolean isActive;
 
 
     //constructor
 
 
-    public ProductModel(int id, String name, int age, boolean isActive) {
+    public ProductModel(int id, String name, int amount, boolean isActive) {
         this.id = id;
         this.name = name;
-        this.age = age;
+        this.amount = amount;
         this.isActive = isActive;
     }
 
@@ -28,7 +28,7 @@ public class ProductModel {
         return "ProductModel{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
-                ", age=" + age +
+                ", amount=" + amount +
                 ", isActive=" + isActive +
                 '}';
     }
@@ -53,12 +53,12 @@ public class ProductModel {
         this.name = name;
     }
 
-    public int getAge() {
-        return age;
+    public int getAmount() {
+        return amount;
     }
 
-    public void setAge(int age) {
-        this.age = age;
+    public void setAmount(int age) {
+        this.amount = age;
     }
 
     public boolean isActive() {

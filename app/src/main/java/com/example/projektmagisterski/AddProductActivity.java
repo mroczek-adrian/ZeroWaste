@@ -10,6 +10,8 @@ import android.widget.ListView;
 import android.widget.Switch;
 import android.widget.Toast;
 
+import java.util.List;
+
 public class AddProductActivity extends AppCompatActivity {
     //references to buttons and other controls on the layout
     Button btn_add,btn_viewAll;
@@ -33,14 +35,23 @@ public class AddProductActivity extends AppCompatActivity {
         btn_add.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                ProductModel productModel;
                 try{
-                    ProductModel productModel = new ProductModel(-1,et_name.getText().toString(),Integer.parseInt(et_age.getText().toString()),sw_activeProduct.isChecked());
+                    productModel = new ProductModel(-1,et_name.getText().toString(),Integer.parseInt(et_age.getText().toString()),sw_activeProduct.isChecked());
                     Toast.makeText(AddProductActivity.this,productModel.toString(), Toast.LENGTH_SHORT).show();
 
                 }catch(Exception e){
-                    Toast.makeText(AddProductActivity.this,"Error creating Product", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(AddProductActivity.this,"Error creating product", Toast.LENGTH_SHORT).show();
+                    productModel = new ProductModel(-1,"error",0,false);
 
                 }
+
+
+                DataBaseHelper dataBaseHelper = new DataBaseHelper(AddProductActivity.this);
+                boolean success = dataBaseHelper.addOne(productModel);
+                Toast.makeText(AddProductActivity.this,"Success="+ success, Toast.LENGTH_SHORT).show();
+
+
 
 
 
@@ -48,10 +59,19 @@ public class AddProductActivity extends AppCompatActivity {
             }
         });
         btn_viewAll.setOnClickListener(new View.OnClickListener() {
+
+
+
             @Override
             public void onClick(View v) {
-                Toast.makeText(AddProductActivity.this, "View all button", Toast.LENGTH_SHORT).show();
+                DataBaseHelper dataBaseHelper  = new DataBaseHelper(AddProductActivity.this);
+                List<ProductModel> everyone = dataBaseHelper.getEveryone();
+                Toast.makeText(AddProductActivity.this, everyone.toString(), Toast.LENGTH_SHORT).show();
+
+//                Toast.makeText(AddProductActivity.this, "View all button", Toast.LENGTH_SHORT).show();
             }
+
+
         });
 
 
