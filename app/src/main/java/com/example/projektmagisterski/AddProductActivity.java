@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
@@ -18,7 +19,8 @@ public class AddProductActivity extends AppCompatActivity {
     EditText et_name,et_age;
     Switch sw_activeProduct;
     ListView lv_productList;
-
+    ArrayAdapter productArrayAdapter;
+    DataBaseHelper dataBaseHelper;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -30,6 +32,9 @@ public class AddProductActivity extends AppCompatActivity {
         et_name=findViewById(R.id.et_name);
         sw_activeProduct = findViewById(R.id.sw_activeProduct);
         lv_productList = findViewById(R.id.lv_productList);
+        dataBaseHelper  = new DataBaseHelper(AddProductActivity.this);
+
+        ShowProductOnListView(dataBaseHelper);
 
         //button listeners for the add and view All buttons
         btn_add.setOnClickListener(new View.OnClickListener() {
@@ -51,9 +56,7 @@ public class AddProductActivity extends AppCompatActivity {
                 boolean success = dataBaseHelper.addOne(productModel);
                 Toast.makeText(AddProductActivity.this,"Success="+ success, Toast.LENGTH_SHORT).show();
 
-
-
-
+                ShowProductOnListView(dataBaseHelper);
 
 
             }
@@ -66,7 +69,14 @@ public class AddProductActivity extends AppCompatActivity {
             public void onClick(View v) {
                 DataBaseHelper dataBaseHelper  = new DataBaseHelper(AddProductActivity.this);
                 List<ProductModel> everyone = dataBaseHelper.getEveryone();
-                Toast.makeText(AddProductActivity.this, everyone.toString(), Toast.LENGTH_SHORT).show();
+
+
+//                NIE DZIALA.. - OGANRAC JAK GOSCIU FORMATOWAL LIST VIEW BO COS WPISYWAL I MU FAJNIE POKAZUJE A MI WYWALA
+                //po to aby wyslietlac rekordy w liscie
+                ShowProductOnListView(dataBaseHelper);
+
+
+//                Toast.makeText(AddProductActivity.this, everyone.toString(), Toast.LENGTH_SHORT).show();
 
 //                Toast.makeText(AddProductActivity.this, "View all button", Toast.LENGTH_SHORT).show();
             }
@@ -75,5 +85,10 @@ public class AddProductActivity extends AppCompatActivity {
         });
 
 
+    }
+
+    private void ShowProductOnListView(DataBaseHelper dataBaseHelper2) {
+        productArrayAdapter = new ArrayAdapter<ProductModel>(AddProductActivity.this, android.R.layout.simple_list_item_1, dataBaseHelper2.getEveryone());
+        lv_productList.setAdapter(productArrayAdapter);
     }
 }
