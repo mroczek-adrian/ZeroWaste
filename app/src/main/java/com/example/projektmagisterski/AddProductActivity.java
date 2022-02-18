@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -82,6 +83,17 @@ public class AddProductActivity extends AppCompatActivity {
             }
 
 
+        });
+
+        lv_productList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                ProductModel clickedProduct = (ProductModel) parent.getItemAtPosition(position);
+                dataBaseHelper.deleteOne(clickedProduct);
+                ShowProductOnListView(dataBaseHelper);
+                Toast.makeText(AddProductActivity.this,"Deleted="+ clickedProduct.toString(), Toast.LENGTH_SHORT).show();
+
+            }
         });
 
 
