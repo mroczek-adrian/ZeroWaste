@@ -139,7 +139,7 @@ public class ThirdActivity extends AppCompatActivity implements DatePickerDialog
 
     @Override
     public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-        String date = "month/day/year: " + month + "/" + dayOfMonth + "/" + year;
+        String date = "miesiąc/dzień/rok: " + month + "/" + dayOfMonth + "/" + year;
         dateText.setText(date);
     }
 

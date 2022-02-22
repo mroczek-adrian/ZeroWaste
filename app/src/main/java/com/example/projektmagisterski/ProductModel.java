@@ -25,7 +25,7 @@ public class ProductModel {
 
     @Override
     public String toString() {
-        return "ProductModel{" +
+        return "ProdukcikProductModel{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", amount=" + amount +
