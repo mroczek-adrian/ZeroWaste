@@ -40,18 +40,18 @@
         android:id="@+id/sw_activeProduct"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Active Product"
+        android:text="Czy obawiasz sie ze kupiłeś za dużo tego produktu?"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/bExpiryDate1" />
 
     <Button
-        android:id="@+id/btn_viewAll"
+        android:id="@+id/btn_cofnij"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="4dp"
-        android:text="View All"
+        android:text="COFNIJ"
         app:layout_constraintEnd_toStartOf="@+id/btn_add"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/sw_activeProduct" />
@@ -60,11 +60,10 @@
         android:id="@+id/btn_add"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Add"
+        android:text="Dodaj produkt"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/btn_viewAll"
-        app:layout_constraintStart_toEndOf="@id/btn_viewAll"
-        />
+        app:layout_constraintStart_toEndOf="@id/btn_cofnij"
+        app:layout_constraintTop_toTopOf="@+id/btn_cofnij" />
 
     <ListView
         android:id="@+id/lv_productList"
@@ -80,7 +79,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btn_viewAll"
+        app:layout_constraintTop_toBottomOf="@+id/btn_cofnij"
         app:layout_constraintVertical_bias="1.0" />
 
     <Button

@@ -14,6 +14,7 @@ import java.util.List;
 public class DataBaseHelper extends SQLiteOpenHelper {
     public static final String PRODUCT_TABLE = "PRODUCT_TABLE";
     public static final String COLUMN_PRODUCT_NAME = "PRODUCT_NAME";
+    public static final String COLUMN_PRODUCT_DATA_TIME = "PRODUCT_DATE_TIME";
     public static final String COLUMN_PRODUCT_AMOUNT = "PRODUCT_AMOUNT";
     public static final String COLUMN_ACTIVE_PRODUCT = "ACTIVE_PRODUCT";
     public static final String PRODUCT_ID = "ID";
@@ -26,7 +27,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
     // t his is called the first time a database is accessed. . There should be code in here to create a new database
     @Override
     public void onCreate(SQLiteDatabase db) {
-        String createTableStatement = "CREATE TABLE "+PRODUCT_TABLE+" (ID INTEGER PRIMARY KEY AUTOINCREMENT,PRODUCT_NAME TEXT, PRODUCT_AMOUNT INT , ACTIVE_PRODUCT BOOL)";
+        String createTableStatement = "CREATE TABLE "+PRODUCT_TABLE+" (ID INTEGER PRIMARY KEY AUTOINCREMENT,PRODUCT_NAME TEXT, PRODUCT_DATE_TIME TEXT ,PRODUCT_AMOUNT INT , ACTIVE_PRODUCT BOOL)";
 
         db.execSQL(createTableStatement);
 
@@ -44,6 +45,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         ContentValues cv = new ContentValues();
 
         cv.put(COLUMN_PRODUCT_NAME,productModel.getName());
+        cv.put(COLUMN_PRODUCT_DATA_TIME,productModel.getDateTime());
         cv.put(COLUMN_PRODUCT_AMOUNT,productModel.getAmount());
         cv.put(COLUMN_ACTIVE_PRODUCT,productModel.isActive());
 
@@ -88,10 +90,11 @@ public class DataBaseHelper extends SQLiteOpenHelper {
             do{
                 int productID = cursor.getInt(0);
                 String productName = cursor.getString(1);
-                int productAmount = cursor.getInt(2);
-                boolean productActive = cursor.getInt(3) == 1 ?true:    false;
+                String productDateTime = cursor.getString(2);
+                int productAmount = cursor.getInt(3);
+                boolean productActive = cursor.getInt(4) == 1 ?true:    false;
 
-                ProductModel newProduct = new ProductModel(productID,productName,productAmount,productActive);
+                ProductModel newProduct = new ProductModel(productID,productName,productDateTime,productAmount,productActive);
                 returnList.add(newProduct);
 
 
