@@ -119,7 +119,7 @@ public class AddProductActivity extends AppCompatActivity implements DatePickerD
                 ProductModel clickedProduct = (ProductModel) parent.getItemAtPosition(position);
                 dataBaseHelper.deleteOne(clickedProduct);
                 ShowProductOnListView(dataBaseHelper);
-                Toast.makeText(AddProductActivity.this,"Deleted="+ clickedProduct.toString(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(AddProductActivity.this,"Usunięto="+ clickedProduct.toString(), Toast.LENGTH_SHORT).show();
 
             }
         });

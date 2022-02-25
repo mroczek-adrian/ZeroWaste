@@ -116,6 +116,22 @@ public class DataBaseHelper extends SQLiteOpenHelper {
 
 
     }
+    public boolean deleteOnePrzepis(PrzepisModel przepisModel){
+        // find productModel in the database. if it found, delete it and return true.
+        // if it is not found, return false
+
+        SQLiteDatabase db = this.getWritableDatabase();
+        String queryString = "DELETE FROM " + PRZEPIS_TABLE +" WHERE "+PRZEPIS_ID + " = " + przepisModel.getPrzepis_id();
+        Cursor cursor = db.rawQuery(queryString,null);
+        if(cursor.moveToFirst()){
+            return true;
+
+        }else{
+            return false;
+        }
+
+
+    }
 
     public List<ProductModel>  getEveryone(){
         List<ProductModel> returnList = new ArrayList<>();

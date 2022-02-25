@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -44,27 +45,25 @@ public class AddPrzepisActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 PrzepisModel przepisModel;
-//                try{
-//                    //data musi byc podana
-////                    if(dateText.getText().toString() == ""){
-//////                        Toast.makeText(AddProductActivity.this,"0??=", Toast.LENGTH_SHORT).show();
-////                        throw new Exception("Something failed.", new Throwable());
-////                    }
-////                    String txtExpiryDate = dateText.getText().toString();
-//                    //inne
-//                    przepisModel = new PrzepisModel(-1,et_namePrzepis.getText().toString(),et01.getText().toString(),et02.getText().toString(),et03.getText().toString());
-//                    Toast.makeText(AddPrzepisActivity.this,przepisModel.toString(), Toast.LENGTH_SHORT).show();
-//                    boolean success = dataBaseHelper.addOnePrzepis(przepisModel);
-//                    Toast.makeText(AddPrzepisActivity.this,"Success="+ success, Toast.LENGTH_SHORT).show();
-//                }catch(Exception e){
-//                    Toast.makeText(AddPrzepisActivity.this,"Błąd dodania przepisu, wypełnij poprawnie pola!", Toast.LENGTH_SHORT).show();
-//                    //productModel = new ProductModel(-1,"error ","!",0,false);
-//
-//                }
-                przepisModel = new PrzepisModel(-1,et_namePrzepis.getText().toString(),et01.getText().toString(),et02.getText().toString(),et03.getText().toString());
-                Toast.makeText(AddPrzepisActivity.this,przepisModel.toString(), Toast.LENGTH_SHORT).show();
-                boolean success = dataBaseHelper.addOnePrzepis(przepisModel);
-                Toast.makeText(AddPrzepisActivity.this,"Success="+ success, Toast.LENGTH_SHORT).show();
+                try{
+//                    et_namePrzepis.setText("a");
+                    //data musi byc podana
+                    if(et_namePrzepis.getText().toString().isEmpty() || et01.getText().toString().isEmpty() ){
+//                        Toast.makeText(AddProductActivity.this,"0??=", Toast.LENGTH_SHORT).show();
+                        throw new Exception("Something failed.", new Throwable());
+                    }
+//                    String txtExpiryDate = dateText.getText().toString();
+                    //inne
+                    przepisModel = new PrzepisModel(-1,et_namePrzepis.getText().toString(),et01.getText().toString(),et02.getText().toString(),et03.getText().toString());
+                    Toast.makeText(AddPrzepisActivity.this,przepisModel.toString(), Toast.LENGTH_SHORT).show();
+                    boolean success = dataBaseHelper.addOnePrzepis(przepisModel);
+                    Toast.makeText(AddPrzepisActivity.this,"Success="+ success, Toast.LENGTH_SHORT).show();
+
+                }catch(Exception e){
+                    Toast.makeText(AddPrzepisActivity.this,"Błąd dodania przepisu, nazwa przepisu jest obowiazkowa oraz przynajmniej 1 skladnik w miejscu skladnika nr1!", Toast.LENGTH_SHORT).show();
+                    //productModel = new ProductModel(-1,"error ","!",0,false);
+
+                }
 
 
                 DataBaseHelper dataBaseHelper = new DataBaseHelper(AddPrzepisActivity.this);
@@ -72,6 +71,16 @@ public class AddPrzepisActivity extends AppCompatActivity {
 
                 ShowProductOnListView(dataBaseHelper);
 
+
+            }
+        });
+        lv_Przepis.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                PrzepisModel clickedPrzepis = (PrzepisModel) parent.getItemAtPosition(position);
+                dataBaseHelper.deleteOnePrzepis(clickedPrzepis);
+                ShowProductOnListView(dataBaseHelper);
+                Toast.makeText(AddPrzepisActivity.this,"Usunięto="+ clickedPrzepis.toString(), Toast.LENGTH_SHORT).show();
 
             }
         });
