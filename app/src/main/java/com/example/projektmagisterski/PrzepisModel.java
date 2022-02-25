@@ -20,6 +20,7 @@ public class PrzepisModel {
     }
 
 
+
     @Override
     public String toString() {
         return "PrzepisModel{" +

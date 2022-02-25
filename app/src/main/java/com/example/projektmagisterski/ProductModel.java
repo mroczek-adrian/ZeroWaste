@@ -26,6 +26,7 @@ public class ProductModel {
 
     }
 
+
     //toString is necessary for printing the contents of the class object
 
     @Override

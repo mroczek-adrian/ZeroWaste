@@ -14,11 +14,11 @@ import java.util.List;
 public class DataBaseHelper extends SQLiteOpenHelper {
     //przepisy
     public static final String PRZEPIS_TABLE = "PRZEPIS_TABLE";
-    public static final String PRZEPIS_ID = "ID";
     public static final String COLUMN_PRZEPIS_NAME = "PRZEPIS_NAME";
     public static final String COLUMN_SKLADNIK_NAME1 = "SKLADNIK_NAME1";
     public static final String COLUMN_SKLADNIK_NAME2 = "SKLADNIK_NAME2";
     public static final String COLUMN_SKLADNIK_NAME3 = "SKLADNIK_NAME3";
+    public static final String PRZEPIS_ID = "ID";
 
     //product
     public static final String PRODUCT_TABLE = "PRODUCT_TABLE";
@@ -37,7 +37,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
         String createTableStatement = "CREATE TABLE "+PRODUCT_TABLE+" (ID INTEGER PRIMARY KEY AUTOINCREMENT,PRODUCT_NAME TEXT, PRODUCT_DATE_TIME TEXT ,PRODUCT_AMOUNT INT , ACTIVE_PRODUCT BOOL)";
-        String createTableStatementPrzepis = "CREATE TABLE "+PRZEPIS_TABLE+" (ID INTEGER PRIMARY KEY AUTOINCREMENT,COLUMN_PRZEPIS_NAME TEXT, COLUMN_SKLADNIK_NAME1 TEXT ,COLUMN_SKLADNIK_NAME2 TEXT,COLUMN_SKLADNIK_NAME3 TEXT)";
+        String createTableStatementPrzepis = "CREATE TABLE "+PRZEPIS_TABLE+" (ID INTEGER PRIMARY KEY AUTOINCREMENT,PRZEPIS_NAME TEXT, SKLADNIK_NAME1 TEXT ,SKLADNIK_NAME2 TEXT,SKLADNIK_NAME3 TEXT)";
 
         db.execSQL(createTableStatement);
         db.execSQL(createTableStatementPrzepis);
@@ -79,6 +79,12 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues cv1 = new ContentValues();
 
+//        public static final String PRZEPIS_TABLE = "PRZEPIS_TABLE";
+//        public static final String PRZEPIS_ID = "ID";
+//        public static final String COLUMN_PRZEPIS_NAME = "PRZEPIS_NAME";
+//        public static final String COLUMN_SKLADNIK_NAME1 = "SKLADNIK_NAME1";
+//        public static final String COLUMN_SKLADNIK_NAME2 = "SKLADNIK_NAME2";
+//        public static final String COLUMN_SKLADNIK_NAME3 = "SKLADNIK_NAME3";
 
         cv1.put(COLUMN_PRZEPIS_NAME,przepisModel.getPrzepis_name());
         cv1.put(COLUMN_SKLADNIK_NAME1,przepisModel.getSkladnik_name1());
