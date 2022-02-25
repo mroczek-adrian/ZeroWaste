@@ -126,6 +126,12 @@ public class AddProductActivity extends AppCompatActivity implements DatePickerD
 
 
     }
+
+
+
+    //search
+
+
     public void showDatePickerDialog(){
         DatePickerDialog datePickerDialog = new DatePickerDialog(
                 this,

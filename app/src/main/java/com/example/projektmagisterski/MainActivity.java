@@ -73,5 +73,13 @@ public class MainActivity extends AppCompatActivity {
                 launcher.launch(i1);
             }
         });
+
+        findViewById(R.id.btn_przepisy).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i2 = new Intent(getApplicationContext(),AddPrzepisActivity.class);
+                launcher.launch(i2);
+            }
+        });
     }
 }
