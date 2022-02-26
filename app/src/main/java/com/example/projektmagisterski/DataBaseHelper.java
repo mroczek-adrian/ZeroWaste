@@ -5,7 +5,13 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.text.format.Time;
+import android.util.Log;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import androidx.annotation.Nullable;
 
 import java.util.ArrayList;
@@ -19,6 +25,8 @@ public class DataBaseHelper extends SQLiteOpenHelper {
     public static final String COLUMN_SKLADNIK_NAME2 = "SKLADNIK_NAME2";
     public static final String COLUMN_SKLADNIK_NAME3 = "SKLADNIK_NAME3";
     public static final String PRZEPIS_ID = "ID";
+
+
 
     //product
     public static final String PRODUCT_TABLE = "PRODUCT_TABLE";
@@ -203,6 +211,90 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         cursor1.close();
         db.close();
 
+        return returnList;
+    }
+
+    //podpowiedzi tych przepisow aby bylo zero waste oraz w 2 kolejnosci aby uwzglednic to ze jakiego produktu jest za duzo
+    public List<PrzepisModel>  getHintPrzepis() throws ParseException {
+        //1 na podtawie produktow ktorym konczy sie data waznosci chce dac odp przepis ktory ten produkt zawiera (nie musze wybierac przepisu gdzie najweicej jest produktu kotry traci waznosc )
+        //1.1 sprawdzic date waznosci produktu ktora wymaga spozycia, na podstawei daty zczytanej z kompa
+        //1.2.?
+        //2 kolejnosci aby uwzglednic to ze jakiego produktu jest za duzo
+
+
+        List<PrzepisModel> returnList = new ArrayList<>();
+        //get data from the database
+
+        String queryStringPrzepis = "SELECT * FROM " + PRZEPIS_TABLE;
+        String queryStringProduct = "SELECT * FROM " + PRODUCT_TABLE;
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursorPrzepis = db.rawQuery(queryStringPrzepis,null);
+        Cursor cursorProduct = db.rawQuery(queryStringProduct,null);
+
+
+
+        //current date https://stackoverflow.com/questions/5369682/how-to-get-current-time-and-date-in-android
+        Time today = new Time(Time.getCurrentTimezone());
+        today.setToNow();
+        int currentdayOfTheMonth = today.monthDay;             // Day of the month (1-31)
+        int currentmonth = today.month;                // Month (0-11)
+        int currentyear = today.year;                   // Year
+
+
+
+        //pobieram produkty i szukam 1 produktu ktorego data jest najmniejsza
+        String najmniejszaData = "null";
+        if(cursorProduct.moveToFirst()){
+            // loop through the cursor (result set) and create new customer  objects.Put them into the result list
+            do{
+                String productName = cursorProduct.getString(1);
+                String productDateTime = cursorProduct.getString(2);
+                //boolean productActive = cursor.getInt(4) == 1 ?true:    false;
+
+
+                //String sDate1="31/12/1998"; https://www.codegrepper.com/code-examples/java/convert+string+value+to+date+in+java+android
+                String sDate1=productDateTime;
+                Date date1=new SimpleDateFormat("dd/MM/yyyy").parse(sDate1);
+                DateFormat format2=new SimpleDateFormat("EEEE");
+                String finalDay=format2.format(date1);
+                int finalDayint= Integer.parseInt(finalDay);
+
+                System.out.println(sDate1+"\t"+date1);
+                System.out.println("\n"+"finalDay+"+finalDay);
+                Log.d(DataBaseHelper.PRODUCT_ID,"finalDay");
+
+                //szukam i zapamietuje nazwe Produktu z najmniejsza data
+                if(currentdayOfTheMonth>=finalDayint){
+                    najmniejszaData=productName;
+                }
+
+
+            }while(cursorProduct.moveToNext());
+
+        }else{
+            //failure . do not add anything to the list
+        }
+        System.out.println("\n najmnieszjaData= "+najmniejszaData);
+        Log.d(DataBaseHelper.PRODUCT_ID,"Application started");
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        //close both the cursor and the db when done.
+        cursorProduct.close();
+        db.close();
         return returnList;
     }
 

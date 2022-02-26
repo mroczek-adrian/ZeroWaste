@@ -10,16 +10,24 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
 import android.widget.TextView;
 
+import java.text.ParseException;
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
-
+    ListView lv_result;
+    ArrayAdapter resultArrayAdapter;
+    DataBaseHelper dataBaseHelper;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        lv_result = findViewById(R.id.lv_result);
+        dataBaseHelper  = new DataBaseHelper(MainActivity.this);
+
 
         ActivityResultLauncher<Intent> launcher=registerForActivityResult(
                 new ActivityResultContracts.StartActivityForResult(),
@@ -81,5 +89,13 @@ public class MainActivity extends AppCompatActivity {
                 launcher.launch(i2);
             }
         });
+
+
+        try {
+            resultArrayAdapter = new ArrayAdapter<PrzepisModel>(MainActivity.this, android.R.layout.simple_list_item_1, dataBaseHelper.getHintPrzepis());
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        lv_result.setAdapter(resultArrayAdapter);
     }
 }
