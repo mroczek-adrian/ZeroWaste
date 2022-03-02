@@ -150,7 +150,7 @@ public class AddProductActivity extends AppCompatActivity implements DatePickerD
     //do daty potrzebne
     @Override
     public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-        String date = "month/day/year: " + month + "/" + dayOfMonth + "/" + year;
+        String date = dayOfMonth + "/" + (month +1 )+"/"+ year;
         dateText.setText(date);
     }
 }

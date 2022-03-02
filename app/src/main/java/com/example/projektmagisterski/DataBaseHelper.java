@@ -5,6 +5,8 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.icu.util.Calendar;
+import android.os.Build;
 import android.text.format.Time;
 import android.util.Log;
 
@@ -13,10 +15,12 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 
 import java.util.ArrayList;
 import java.util.List;
-
+import java.text.SimpleDateFormat;
+import java.util.Date;
 public class DataBaseHelper extends SQLiteOpenHelper {
     //przepisy
     public static final String PRZEPIS_TABLE = "PRZEPIS_TABLE";
@@ -215,6 +219,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
     }
 
     //podpowiedzi tych przepisow aby bylo zero waste oraz w 2 kolejnosci aby uwzglednic to ze jakiego produktu jest za duzo
+    @RequiresApi(api = Build.VERSION_CODES.N)
     public List<PrzepisModel>  getHintPrzepis() throws ParseException {
         //1 na podtawie produktow ktorym konczy sie data waznosci chce dac odp przepis ktory ten produkt zawiera (nie musze wybierac przepisu gdzie najweicej jest produktu kotry traci waznosc )
         //1.1 sprawdzic date waznosci produktu ktora wymaga spozycia, na podstawei daty zczytanej z kompa
@@ -237,36 +242,85 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         Time today = new Time(Time.getCurrentTimezone());
         today.setToNow();
         int currentdayOfTheMonth = today.monthDay;             // Day of the month (1-31)
-        int currentmonth = today.month;                // Month (0-11)
+        int currentmonth = today.month+1;                // Month (0-11)
         int currentyear = today.year;                   // Year
+        System.out.println("\n"+"currentdayOfTheMonth="+currentdayOfTheMonth+"currentmonth="+currentmonth+"currentyear="+currentyear);
+        String todayStr=currentdayOfTheMonth+"/"+currentmonth+"/"+currentyear;
+        Date dateNow=new SimpleDateFormat("d/M/yyyy").parse(todayStr);
 
-
-
-        //pobieram produkty i szukam 1 produktu ktorego data jest najmniejsza
+        //pobieram produkty i szukam 1 produktu ktorego data jest najmniejsza + wyswietlanie
         String najmniejszaData = "null";
+        System.out.println("\n najmnieszjaData= "+najmniejszaData + "dateNow"+todayStr);
+
         if(cursorProduct.moveToFirst()){
             // loop through the cursor (result set) and create new customer  objects.Put them into the result list
             do{
                 String productName = cursorProduct.getString(1);
                 String productDateTime = cursorProduct.getString(2);
                 //boolean productActive = cursor.getInt(4) == 1 ?true:    false;
+                System.out.println("\n productDateTime= "+productDateTime+" productName= "+productName);
 
 
                 //String sDate1="31/12/1998"; https://www.codegrepper.com/code-examples/java/convert+string+value+to+date+in+java+android
-                String sDate1=productDateTime;
-                Date date1=new SimpleDateFormat("dd/MM/yyyy").parse(sDate1);
-                DateFormat format2=new SimpleDateFormat("EEEE");
-                String finalDay=format2.format(date1);
-                int finalDayint= Integer.parseInt(finalDay);
 
-                System.out.println(sDate1+"\t"+date1);
-                System.out.println("\n"+"finalDay+"+finalDay);
-                Log.d(DataBaseHelper.PRODUCT_ID,"finalDay");
+
+
+                //nie dziala... nawet nie przeszlo dalej..
+                Date date1=new SimpleDateFormat("d/M/yyyy").parse(productDateTime);
+                System.out.println("\n date1= "+date1);
+//                DateFormat format2=new SimpleDateFormat("EEEE");
+//                System.out.println("\n format2= "+format2);
+
+                int finalDay = date1.getDay();
+                int finalMonth = (date1.getMonth() +1);// bo jest od 0-11 nomentkatura
+                int finalYear = date1.getYear();
+
+
+
+                System.out.println("\n finalDay+"+finalDay + "finalMonth+"+ finalMonth + " finalYear+"+finalYear);
+
+
+                //dla daty ktore sa przed data terazniejsza
+                if (new Date().after(date1)) {
+                    System.out.println("\n date= "+productDateTime +" ten produkt o nazwie "+ productName +" jest albo przeterminowany albo do uzycia jeszcze dzis "+"\t currentdayOfTheMonth="+currentdayOfTheMonth+"currentmonth="+currentmonth+"currentyear="+currentyear);
+
+                    Date newDate = new Date(dateNow.getTime() - 86400000L);//https://stackoverflow.com/questions/3747490/android-get-date-before-7-days-one-week  // 1 * 24 * 60 * 60 * 1000
+                    System.out.println("\n newDate= "+newDate );
+                    if(newDate.before(date1)){
+                       // System.out.println("\n co sie dzieje= "+newDate );
+                        System.out.println("\n date= "+productDateTime +" ten produkt o nazwie "+ productName +" do uzycia jeszcze dzis "+"\t currentdayOfTheMonth="+currentdayOfTheMonth+"currentmonth="+currentmonth+"currentyear="+currentyear);
+
+                    }
+
+                }else{
+                    System.out.println("\n date= "+productDateTime +"  jest po dacie"+"\t currentdayOfTheMonth="+currentdayOfTheMonth+"currentmonth="+currentmonth+"currentyear="+currentyear);
+
+                }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//                int finalDayint= Integer.parseInt(finalDay);
+
+
+
+
 
                 //szukam i zapamietuje nazwe Produktu z najmniejsza data
-                if(currentdayOfTheMonth>=finalDayint){
-                    najmniejszaData=productName;
-                }
+//                if(currentdayOfTheMonth>=finalDayint){
+//                    najmniejszaData=productName;
+//                }
 
 
             }while(cursorProduct.moveToNext());
@@ -274,20 +328,6 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         }else{
             //failure . do not add anything to the list
         }
-        System.out.println("\n najmnieszjaData= "+najmniejszaData);
-        Log.d(DataBaseHelper.PRODUCT_ID,"Application started");
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
