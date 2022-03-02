@@ -230,10 +230,10 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         List<PrzepisModel> returnList = new ArrayList<>();
         //get data from the database
 
-        String queryStringPrzepis = "SELECT * FROM " + PRZEPIS_TABLE;
+
         String queryStringProduct = "SELECT * FROM " + PRODUCT_TABLE;
         SQLiteDatabase db = this.getReadableDatabase();
-        Cursor cursorPrzepis = db.rawQuery(queryStringPrzepis,null);
+
         Cursor cursorProduct = db.rawQuery(queryStringProduct,null);
 
 
@@ -250,7 +250,9 @@ public class DataBaseHelper extends SQLiteOpenHelper {
 
         //pobieram produkty i szukam 1 produktu ktorego data jest najmniejsza + wyswietlanie
         String najmniejszaData = "null";
+        String produktNajmniejszaData = "null";
         System.out.println("\n najmnieszjaData= "+najmniejszaData + "dateNow"+todayStr);
+
 
         if(cursorProduct.moveToFirst()){
             // loop through the cursor (result set) and create new customer  objects.Put them into the result list
@@ -289,7 +291,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
                     if(newDate.before(date1)){
                        // System.out.println("\n co sie dzieje= "+newDate );
                         System.out.println("\n date= "+productDateTime +" ten produkt o nazwie "+ productName +" do uzycia jeszcze dzis "+"\t currentdayOfTheMonth="+currentdayOfTheMonth+"currentmonth="+currentmonth+"currentyear="+currentyear);
-
+                        produktNajmniejszaData = productName;
                     }
 
                 }else{
@@ -297,43 +299,42 @@ public class DataBaseHelper extends SQLiteOpenHelper {
 
                 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-//                int finalDayint= Integer.parseInt(finalDay);
-
-
-
-
-
-                //szukam i zapamietuje nazwe Produktu z najmniejsza data
-//                if(currentdayOfTheMonth>=finalDayint){
-//                    najmniejszaData=productName;
-//                }
-
-
             }while(cursorProduct.moveToNext());
 
         }else{
             //failure . do not add anything to the list
         }
 
+        String queryStringPrzepis = "SELECT * FROM " + PRZEPIS_TABLE;
+//        String queryStringPrzepis = "SELECT * FROM " + PRZEPIS_TABLE+ " WHERE PRZEPIS_NAME ='"+produktNajmniejszaData+"'";
+        Cursor cursorPrzepis = db.rawQuery(queryStringPrzepis,null);
+
+        if(cursorPrzepis.moveToFirst()){
+            // loop through the cursor (result set) and create new customer  objects.Put them into the result list
+            do{
+                int przepisID = cursorPrzepis.getInt(0);
+                String przepisName = cursorPrzepis.getString(1);
+                String skladniknr1 = cursorPrzepis.getString(2);
+                String skladniknr2 = cursorPrzepis.getString(3);
+                String skladniknr3 = cursorPrzepis.getString(4);
+
+
+                PrzepisModel newPrzepis = new PrzepisModel(przepisID,przepisName,skladniknr1,skladniknr2,skladniknr3);
+                returnList.add(newPrzepis);
+
+
+            }while(cursorPrzepis.moveToNext());
+
+        }else{
+            //failure . do not add anything to the list
+
+        }
 
 
 
         //close both the cursor and the db when done.
         cursorProduct.close();
+        cursorPrzepis.close();
         db.close();
         return returnList;
     }
