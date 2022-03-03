@@ -305,8 +305,13 @@ public class DataBaseHelper extends SQLiteOpenHelper {
             //failure . do not add anything to the list
         }
 
-        String queryStringPrzepis = "SELECT * FROM " + PRZEPIS_TABLE;
-//        String queryStringPrzepis = "SELECT * FROM " + PRZEPIS_TABLE+ " WHERE PRZEPIS_NAME ='"+produktNajmniejszaData+"'";
+        System.out.println("\n produktNajmniejszaData="+produktNajmniejszaData );
+
+        //sss
+//        String queryStringPrzepis = "SELECT * FROM " + PRZEPIS_TABLE + " WHERE " +COLUMN_SKLADNIK_NAME1 +"='"+"ogorek"+"'" ;
+//        String queryStringPrzepis = "SELECT * FROM " + PRZEPIS_TABLE + " WHERE " +COLUMN_SKLADNIK_NAME2 +"='"+produktNajmniejszaData+"'" ;
+        String queryStringPrzepis = "SELECT * FROM " + PRZEPIS_TABLE + " WHERE " +COLUMN_SKLADNIK_NAME1 +"='"+produktNajmniejszaData+"'"+" OR " +COLUMN_SKLADNIK_NAME2 +"='"+produktNajmniejszaData+"'"+" OR " +COLUMN_SKLADNIK_NAME3 +"='"+produktNajmniejszaData+"'";
+
         Cursor cursorPrzepis = db.rawQuery(queryStringPrzepis,null);
 
         if(cursorPrzepis.moveToFirst()){
