@@ -30,8 +30,6 @@ public class DataBaseHelper extends SQLiteOpenHelper {
     public static final String COLUMN_SKLADNIK_NAME3 = "SKLADNIK_NAME3";
     public static final String PRZEPIS_ID = "ID";
 
-
-
     //product
     public static final String PRODUCT_TABLE = "PRODUCT_TABLE";
     public static final String COLUMN_PRODUCT_NAME = "PRODUCT_NAME";
@@ -42,7 +40,6 @@ public class DataBaseHelper extends SQLiteOpenHelper {
 
     public DataBaseHelper(@Nullable Context context) {
         super(context, "produkty.db", null, 1);
-
     }
 
     // t his is called the first time a database is accessed. . There should be code in here to create a new database
@@ -53,8 +50,6 @@ public class DataBaseHelper extends SQLiteOpenHelper {
 
         db.execSQL(createTableStatement);
         db.execSQL(createTableStatementPrzepis);
-
-
     }
 
     // I haave 5 milion users ;D . Zabezpieczenie kiedy zmieniam strukture bazy danych
@@ -62,7 +57,6 @@ public class DataBaseHelper extends SQLiteOpenHelper {
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
 
     }
-
 
     //produkt dodanie
     public boolean addOne(ProductModel productModel){
@@ -91,13 +85,6 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues cv1 = new ContentValues();
 
-//        public static final String PRZEPIS_TABLE = "PRZEPIS_TABLE";
-//        public static final String PRZEPIS_ID = "ID";
-//        public static final String COLUMN_PRZEPIS_NAME = "PRZEPIS_NAME";
-//        public static final String COLUMN_SKLADNIK_NAME1 = "SKLADNIK_NAME1";
-//        public static final String COLUMN_SKLADNIK_NAME2 = "SKLADNIK_NAME2";
-//        public static final String COLUMN_SKLADNIK_NAME3 = "SKLADNIK_NAME3";
-
         cv1.put(COLUMN_PRZEPIS_NAME,przepisModel.getPrzepis_name());
         cv1.put(COLUMN_SKLADNIK_NAME1,przepisModel.getSkladnik_name1());
         cv1.put(COLUMN_SKLADNIK_NAME2,przepisModel.getSkladnik_name2());
@@ -112,43 +99,38 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         }
     }
 
-    public boolean deleteOne(ProductModel productModel){
-        // find productModel in the database. if it found, delete it and return true.
-        // if it is not found, return false
 
+    // find productModel in the database. if it found, delete it and return true.
+    // if it is not found, return false
+    public boolean deleteOne(ProductModel productModel){
          SQLiteDatabase db = this.getWritableDatabase();
          String queryString = "DELETE FROM " + PRODUCT_TABLE +" WHERE "+PRODUCT_ID + " = " + productModel.getId();
          Cursor cursor = db.rawQuery(queryString,null);
+
          if(cursor.moveToFirst()){
              return true;
-
          }else{
              return false;
          }
-
-
     }
-    public boolean deleteOnePrzepis(PrzepisModel przepisModel){
-        // find productModel in the database. if it found, delete it and return true.
-        // if it is not found, return false
 
+    // find productModel in the database. if it found, delete it and return true.
+    // if it is not found, return false
+    public boolean deleteOnePrzepis(PrzepisModel przepisModel){
         SQLiteDatabase db = this.getWritableDatabase();
         String queryString = "DELETE FROM " + PRZEPIS_TABLE +" WHERE "+PRZEPIS_ID + " = " + przepisModel.getPrzepis_id();
         Cursor cursor = db.rawQuery(queryString,null);
+
         if(cursor.moveToFirst()){
             return true;
-
         }else{
             return false;
         }
-
-
     }
 
+    //get data from the database
     public List<ProductModel>  getEveryone(){
         List<ProductModel> returnList = new ArrayList<>();
-        //get data from the database
-
         String queryString = "SELECT * FROM " + PRODUCT_TABLE;
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.rawQuery(queryString,null);
@@ -164,27 +146,21 @@ public class DataBaseHelper extends SQLiteOpenHelper {
 
                 ProductModel newProduct = new ProductModel(productID,productName,productDateTime,productAmount,productActive);
                 returnList.add(newProduct);
-
-
             }while(cursor.moveToNext());
-
         }else{
             //failure . do not add anything to the list
-
         }
 
         //close both the cursor and the db when done.
-
         cursor.close();
         db.close();
 
         return returnList;
     }
 
+
     public List<PrzepisModel>  getEveryonePrzepis(){
         List<PrzepisModel> returnList = new ArrayList<>();
-        //get data from the database
-
         String queryString = "SELECT * FROM " + PRZEPIS_TABLE;
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor1 = db.rawQuery(queryString,null);
@@ -198,53 +174,41 @@ public class DataBaseHelper extends SQLiteOpenHelper {
                 String skladniknr2 = cursor1.getString(3);
                 String skladniknr3 = cursor1.getString(4);
 
-
                 PrzepisModel newPrzepis = new PrzepisModel(przepisID,przepisName,skladniknr1,skladniknr2,skladniknr3);
                 returnList.add(newPrzepis);
 
-
             }while(cursor1.moveToNext());
-
         }else{
             //failure . do not add anything to the list
-
         }
 
         //close both the cursor and the db when done.
-
         cursor1.close();
         db.close();
 
         return returnList;
     }
 
+
     //podpowiedzi tych przepisow aby bylo zero waste oraz w 2 kolejnosci aby uwzglednic to ze jakiego produktu jest za duzo
+    //1 na podtawie produktow ktorym konczy sie data waznosci chce dac odp przepis ktory ten produkt zawiera (nie musze wybierac przepisu gdzie najweicej jest produktu kotry traci waznosc )
+    //1.1 sprawdzic date waznosci produktu ktora wymaga spozycia, na podstawei daty zczytanej z kompa
+    //1.2.?
+    //2 kolejnosci aby uwzglednic to ze jakiego produktu jest za duzo
     @RequiresApi(api = Build.VERSION_CODES.N)
     public List<PrzepisModel>  getHintPrzepis() throws ParseException {
-        //1 na podtawie produktow ktorym konczy sie data waznosci chce dac odp przepis ktory ten produkt zawiera (nie musze wybierac przepisu gdzie najweicej jest produktu kotry traci waznosc )
-        //1.1 sprawdzic date waznosci produktu ktora wymaga spozycia, na podstawei daty zczytanej z kompa
-        //1.2.?
-        //2 kolejnosci aby uwzglednic to ze jakiego produktu jest za duzo
-
-
         List<PrzepisModel> returnList = new ArrayList<>();
-        //get data from the database
-
-
         String queryStringProduct = "SELECT * FROM " + PRODUCT_TABLE;
         SQLiteDatabase db = this.getReadableDatabase();
-
         Cursor cursorProduct = db.rawQuery(queryStringProduct,null);
 
-
-
-        //current date https://stackoverflow.com/questions/5369682/how-to-get-current-time-and-date-in-android
-        Time today = new Time(Time.getCurrentTimezone());
+        Time today = new Time(Time.getCurrentTimezone());  //current date https://stackoverflow.com/questions/5369682/how-to-get-current-time-and-date-in-android
         today.setToNow();
         int currentdayOfTheMonth = today.monthDay;             // Day of the month (1-31)
         int currentmonth = today.month+1;                // Month (0-11)
         int currentyear = today.year;                   // Year
         System.out.println("\n"+"currentdayOfTheMonth="+currentdayOfTheMonth+"currentmonth="+currentmonth+"currentyear="+currentyear);
+
         String todayStr=currentdayOfTheMonth+"/"+currentmonth+"/"+currentyear;
         Date dateNow=new SimpleDateFormat("d/M/yyyy").parse(todayStr);
 
@@ -252,7 +216,6 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         String najmniejszaData = "null";
         String produktNajmniejszaData = "null";
         System.out.println("\n najmnieszjaData= "+najmniejszaData + "dateNow"+todayStr);
-
 
         if(cursorProduct.moveToFirst()){
             // loop through the cursor (result set) and create new customer  objects.Put them into the result list
@@ -262,25 +225,10 @@ public class DataBaseHelper extends SQLiteOpenHelper {
                 //boolean productActive = cursor.getInt(4) == 1 ?true:    false;
                 System.out.println("\n productDateTime= "+productDateTime+" productName= "+productName);
 
-
-                //String sDate1="31/12/1998"; https://www.codegrepper.com/code-examples/java/convert+string+value+to+date+in+java+android
-
-
-
-                //nie dziala... nawet nie przeszlo dalej..
-                Date date1=new SimpleDateFormat("d/M/yyyy").parse(productDateTime);
+                Date date1=new SimpleDateFormat("d/M/yyyy").parse(productDateTime);  //String sDate1="31/12/1998"; https://www.codegrepper.com/code-examples/java/convert+string+value+to+date+in+java+android
                 System.out.println("\n date1= "+date1);
 //                DateFormat format2=new SimpleDateFormat("EEEE");
 //                System.out.println("\n format2= "+format2);
-
-                int finalDay = date1.getDay();
-                int finalMonth = (date1.getMonth() +1);// bo jest od 0-11 nomentkatura
-                int finalYear = date1.getYear();
-
-
-
-                System.out.println("\n finalDay+"+finalDay + "finalMonth+"+ finalMonth + " finalYear+"+finalYear);
-
 
                 //dla daty ktore sa przed data terazniejsza
                 if (new Date().after(date1)) {
@@ -293,21 +241,17 @@ public class DataBaseHelper extends SQLiteOpenHelper {
                         System.out.println("\n date= "+productDateTime +" ten produkt o nazwie "+ productName +" do uzycia jeszcze dzis "+"\t currentdayOfTheMonth="+currentdayOfTheMonth+"currentmonth="+currentmonth+"currentyear="+currentyear);
                         produktNajmniejszaData = productName;
                     }
-
                 }else{
                     System.out.println("\n date= "+productDateTime +"  jest po dacie"+"\t currentdayOfTheMonth="+currentdayOfTheMonth+"currentmonth="+currentmonth+"currentyear="+currentyear);
-
                 }
-
             }while(cursorProduct.moveToNext());
-
         }else{
             //failure . do not add anything to the list
         }
 
         System.out.println("\n produktNajmniejszaData="+produktNajmniejszaData );
 
-        //sss
+
 //        String queryStringPrzepis = "SELECT * FROM " + PRZEPIS_TABLE + " WHERE " +COLUMN_SKLADNIK_NAME1 +"='"+"ogorek"+"'" ;
 //        String queryStringPrzepis = "SELECT * FROM " + PRZEPIS_TABLE + " WHERE " +COLUMN_SKLADNIK_NAME2 +"='"+produktNajmniejszaData+"'" ;
         String queryStringPrzepis = "SELECT * FROM " + PRZEPIS_TABLE + " WHERE " +COLUMN_SKLADNIK_NAME1 +"='"+produktNajmniejszaData+"'"+" OR " +COLUMN_SKLADNIK_NAME2 +"='"+produktNajmniejszaData+"'"+" OR " +COLUMN_SKLADNIK_NAME3 +"='"+produktNajmniejszaData+"'";
@@ -323,19 +267,13 @@ public class DataBaseHelper extends SQLiteOpenHelper {
                 String skladniknr2 = cursorPrzepis.getString(3);
                 String skladniknr3 = cursorPrzepis.getString(4);
 
-
                 PrzepisModel newPrzepis = new PrzepisModel(przepisID,przepisName,skladniknr1,skladniknr2,skladniknr3);
                 returnList.add(newPrzepis);
 
-
             }while(cursorPrzepis.moveToNext());
-
         }else{
             //failure . do not add anything to the list
-
         }
-
-
 
         //close both the cursor and the db when done.
         cursorProduct.close();
@@ -343,6 +281,4 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         db.close();
         return returnList;
     }
-
-
 }
