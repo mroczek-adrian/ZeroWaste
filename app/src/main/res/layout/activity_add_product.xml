@@ -36,25 +36,14 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/et_name" />
 
-    <Switch
-        android:id="@+id/sw_activeProduct"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Czy obawiasz sie ze kupiłeś za dużo tego produktu?"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/bExpiryDate1" />
-
     <Button
         android:id="@+id/btn_cofnij"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="4dp"
         android:text="COFNIJ"
         app:layout_constraintEnd_toStartOf="@+id/btn_add"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/sw_activeProduct" />
+        app:layout_constraintTop_toBottomOf="@+id/bExpiryDate1" />
 
     <Button
         android:id="@+id/btn_add"

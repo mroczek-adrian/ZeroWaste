@@ -7,7 +7,6 @@ public class ProductModel {
     private String name;
     private String dateTime;
     private int amount;
-
     private boolean isActive;
 
 

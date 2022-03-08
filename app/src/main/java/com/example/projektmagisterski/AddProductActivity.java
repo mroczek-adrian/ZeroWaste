@@ -22,7 +22,7 @@ public class AddProductActivity extends AppCompatActivity implements DatePickerD
     //references to buttons and other controls on the layout
     Button btn_add,btn_cofnij,bExpiryDate;
     EditText et_name,et_age;
-    Switch sw_activeProduct;
+   //Switch sw_activeProduct;
     ListView lv_productList;
     ArrayAdapter productArrayAdapter;
     DataBaseHelper dataBaseHelper;
@@ -37,7 +37,7 @@ public class AddProductActivity extends AppCompatActivity implements DatePickerD
         btn_cofnij=findViewById(R.id.btn_cofnij);
         et_age=findViewById(R.id.et_age);
         et_name=findViewById(R.id.et_name);
-        sw_activeProduct = findViewById(R.id.sw_activeProduct);
+     //   sw_activeProduct = findViewById(R.id.sw_activeProduct);
         lv_productList = findViewById(R.id.lv_productList);
         bExpiryDate = findViewById(R.id.bExpiryDate1);
         dateText = findViewById(R.id.date_text1);
@@ -72,7 +72,7 @@ public class AddProductActivity extends AppCompatActivity implements DatePickerD
                     }
                     String txtExpiryDate = dateText.getText().toString();
                     //inne
-                    productModel = new ProductModel(-1,et_name.getText().toString(),txtExpiryDate,Integer.parseInt(et_age.getText().toString()),sw_activeProduct.isChecked());
+                    productModel = new ProductModel(-1,et_name.getText().toString(),txtExpiryDate,Integer.parseInt(et_age.getText().toString()),false);//sw_activeProduct.isChecked()
                     Toast.makeText(AddProductActivity.this,productModel.toString(), Toast.LENGTH_SHORT).show();
                     boolean success = dataBaseHelper.addOne(productModel);
                     Toast.makeText(AddProductActivity.this,"Success="+ success, Toast.LENGTH_SHORT).show();
