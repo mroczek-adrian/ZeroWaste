@@ -20,7 +20,7 @@ import java.util.Calendar;
 
 public class AddProductActivity extends AppCompatActivity implements DatePickerDialog.OnDateSetListener{
     //references to buttons and other controls on the layout
-    Button btn_add,btn_cofnij,bExpiryDate;
+    Button btn_add,bExpiryDate;
     EditText et_name,et_age;
    //Switch sw_activeProduct;
     ListView lv_productList;
@@ -34,7 +34,6 @@ public class AddProductActivity extends AppCompatActivity implements DatePickerD
         setContentView(R.layout.activity_add_product);
 
         btn_add=findViewById(R.id.btn_add);
-        btn_cofnij=findViewById(R.id.btn_cofnij);
         et_age=findViewById(R.id.et_age);
         et_name=findViewById(R.id.et_name);
      //   sw_activeProduct = findViewById(R.id.sw_activeProduct);
@@ -92,14 +91,14 @@ public class AddProductActivity extends AppCompatActivity implements DatePickerD
             }
         });
 
-        btn_cofnij.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                setResult(Activity.RESULT_CANCELED);
-                finish();
-
-            }
-        });
+//        btn_cofnij.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                setResult(Activity.RESULT_CANCELED);
+//                finish();
+//
+//            }
+//        });
 //        btn_viewAll.setOnClickListener(new View.OnClickListener() {
 //            @Override
 //            public void onClick(View v) {

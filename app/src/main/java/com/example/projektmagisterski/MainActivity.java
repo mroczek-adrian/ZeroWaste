@@ -39,7 +39,7 @@ public class MainActivity extends AppCompatActivity {
                             Integer l1=i.getIntExtra("l1",0);
                             Integer l2=i.getIntExtra("l2",0);
                             Integer w=l1+l2;
-                            ((TextView)findViewById(R.id.textView)).setText(w.toString());
+                            //((TextView)findViewById(R.id.textView)).setText(w.toString());
 
 
 
@@ -51,23 +51,23 @@ public class MainActivity extends AppCompatActivity {
                         }
                     }
                 });
-        findViewById(R.id.bDodaj).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent i = new Intent(getApplicationContext(),SecondActivity.class);
-                launcher.launch(i);
-            }
-        });
+//        findViewById(R.id.bDodaj).setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Intent i = new Intent(getApplicationContext(),SecondActivity.class);
+//                launcher.launch(i);
+//            }
+//        });
 
 
         //Proba polaczenia aktywity z przyciskiem spis produktow
-        findViewById(R.id.bSpisProduktow).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent i1 = new Intent(getApplicationContext(),ThirdActivity.class);
-                launcher.launch(i1);
-            }
-        });
+//        findViewById(R.id.bSpisProduktow).setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Intent i1 = new Intent(getApplicationContext(),ThirdActivity.class);
+//                launcher.launch(i1);
+//            }
+//        });
 //
 //        Intent intent = getIntent();
 //        ArrayList listaProduktow=intent.getStringArrayListExtra("listaProduktow");
