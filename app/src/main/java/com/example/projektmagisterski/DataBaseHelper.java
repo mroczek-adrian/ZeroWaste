@@ -190,10 +190,10 @@ public class DataBaseHelper extends SQLiteOpenHelper {
     }
 
 
-    //podpowiedzi tych przepisow aby bylo zero waste oraz w 2 kolejnosci aby uwzglednic to ze jakiego produktu jest za duzo
-    //1 na podtawie produktow ktorym konczy sie data waznosci chce dac odp przepis ktory ten produkt zawiera (nie musze wybierac przepisu gdzie najweicej jest produktu kotry traci waznosc )
-    //1.1 sprawdzic date waznosci produktu ktora wymaga spozycia, na podstawei daty zczytanej z kompa
-    //1.2.?
+    //
+    // na podtawie produktow ktorym konczy sie data waznosci(data jest dzisiejsza - nie wyswietlam produktow przeterminowanych)
+    //chce wyswietlic  odpowiedni  przepis ktory zawiera produkt ktoremu dzis sie konczy data waznosci
+    //2 kolejnosci aby uwzglednic to ze jakiego produktu jest za duzo
     //2 kolejnosci aby uwzglednic to ze jakiego produktu jest za duzo
     @RequiresApi(api = Build.VERSION_CODES.N)
     public List<PrzepisModel>  getHintPrzepis() throws ParseException {
