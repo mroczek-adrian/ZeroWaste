@@ -89,7 +89,13 @@ public class MainActivity extends AppCompatActivity {
                 launcher.launch(i2);
             }
         });
-
+//        findViewById(R.id.bAboutApplication).setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Intent i1 = new Intent(getApplicationContext(),AddProductActivity.class);
+//                launcher.launch(i3);
+//            }
+//        });
 
         try {
             resultArrayAdapter = new ArrayAdapter<PrzepisModel>(MainActivity.this, android.R.layout.simple_list_item_1, dataBaseHelper.getHintPrzepis());
