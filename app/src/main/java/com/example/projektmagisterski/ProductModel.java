@@ -30,15 +30,24 @@ public class ProductModel {
 
     @Override
     public String toString() {
-        return "ProdukcikProductModel{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                " dateTime="+dateTime+
-                ", amount=" + amount +
-                ", isActive=" + isActive +
-                '}';
+        return ""+name  + "\n"+
+                " Liczba sztuk: " +amount+"\n"+
+                " Data ważności: "+dateTime+"\n";
     }
-
+//    @Override
+//    public String toString() {
+//        return "ProdukcikProductModel{" +
+//                "id=" + id +
+//                ", name='" + name + '\'' +
+//                " dateTime="+dateTime+
+//                ", amount=" + amount +
+//                ", isActive=" + isActive +
+//                '}';
+//    }
+// return "" + przepis_name + "\n"+
+//            "   Składnik 1 : " + skladnik_name1 + "\n" +
+//            "   Składnik 2 :  " + skladnik_name2 + "\n" +
+//            "   Składnik 3 :  " + skladnik_name3 + "\n";
 
     //gettter and setter
 

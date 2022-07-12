@@ -23,14 +23,21 @@ public class PrzepisModel {
 
     @Override
     public String toString() {
-        return "PrzepisModel{" +
-                "przepis_id=" + przepis_id +
-                ", przepis_name='" + przepis_name + '\'' +
-                ", skladnik_name1='" + skladnik_name1 + '\'' +
-                ", skladnik_name2='" + skladnik_name2 + '\'' +
-                ", skladnik_name3='" + skladnik_name3 + '\'' +
-                '}';
+        return "" + przepis_name + "\n"+
+                "   Składnik 1 : " + skladnik_name1 + "\n" +
+                "   Składnik 2 :  " + skladnik_name2 + "\n" +
+                "   Składnik 3 :  " + skladnik_name3 + "\n";
     }
+//    @Override
+//    public String toString() {
+//        return "PrzepisModel{" +
+//                "przepis_id=" + przepis_id +
+//                ", przepis_name='" + przepis_name + '\'' +
+//                ", skladnik_name1='" + skladnik_name1 + '\'' +
+//                ", skladnik_name2='" + skladnik_name2 + '\'' +
+//                ", skladnik_name3='" + skladnik_name3 + '\'' +
+//                '}';
+//    }
 
     public int getPrzepis_id() {
         return przepis_id;
